@@ -1,0 +1,3 @@
+www.bookman.chat {
+    reverse_proxy bookman-web:3000
+}

@@ -1,0 +1,38 @@
+services:
+  bookman-web:
+    container_name: bookman-web
+    image: bookman-web:${APP_IMAGE_TAG:-latest}
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOSTNAME: 0.0.0.0
+      PORT: 3000
+    networks:
+      - bookman
+
+  caddy:
+    container_name: bookman-caddy
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    depends_on:
+      - bookman-web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - bookman
+
+networks:
+  bookman:
+    name: bookman-network
+
+volumes:
+  caddy_data:
+  caddy_config:

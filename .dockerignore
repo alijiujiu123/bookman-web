@@ -1,0 +1,9 @@
+.git
+.github
+.worktrees
+.next
+node_modules
+coverage
+release.tgz
+npm-debug.log*
+README*
