@@ -1,0 +1,508 @@
+.shell {
+  width: 100%;
+  overflow: hidden;
+}
+
+.section {
+  position: relative;
+  width: min(calc(100% - 32px), var(--max-width));
+  margin: 0 auto;
+}
+
+.heroSection {
+  padding: 36px 0 44px;
+}
+
+.featureSection,
+.portalSection,
+.waitlistSection {
+  padding: 28px 0 0;
+  content-visibility: auto;
+  contain-intrinsic-size: 720px;
+}
+
+.heroGrid,
+.waitlistCard {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  box-shadow: var(--glow);
+  overflow: hidden;
+}
+
+.heroGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 460px);
+  gap: 32px;
+  min-height: 760px;
+  padding: 32px;
+  background:
+    linear-gradient(180deg, rgba(5, 12, 22, 0.92), rgba(9, 22, 39, 0.82)),
+    radial-gradient(circle at top, rgba(29, 223, 255, 0.12), transparent 42%);
+}
+
+.copyBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 24px;
+  padding: 12px 0;
+}
+
+.eyebrow,
+.sectionEyebrow {
+  margin: 0;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-size: 0.76rem;
+}
+
+.title,
+.sectionTitle,
+.waitlistTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  line-height: 0.96;
+}
+
+.title {
+  max-width: 8ch;
+  font-size: clamp(4rem, 10vw, 7.5rem);
+}
+
+.subtitle,
+.sectionLead,
+.sectionBody,
+.waitlistCopy,
+.portalDescription,
+.flowDescription,
+.residentLine,
+.chatBubble p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.subtitle {
+  max-width: 560px;
+  font-size: 1.1rem;
+}
+
+.actions,
+.waitlistActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.primaryAction,
+.secondaryAction,
+.inlineLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease;
+}
+
+.primaryAction:hover,
+.secondaryAction:hover,
+.inlineLink:hover,
+.portalCard:hover {
+  transform: translateY(-2px);
+}
+
+.primaryAction {
+  color: #061019;
+  background: linear-gradient(120deg, var(--accent-strong), var(--accent));
+}
+
+.secondaryAction,
+.inlineLink {
+  border: 1px solid var(--line-strong);
+  background: rgba(8, 17, 30, 0.65);
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.metricCard {
+  display: grid;
+  gap: 8px;
+  min-height: 132px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+}
+
+.metricValue {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.metricLabel {
+  color: var(--text-muted);
+  font-size: 0.92rem;
+}
+
+.stage {
+  position: relative;
+  min-height: 100%;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(29, 223, 255, 0.18), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 26%);
+  overflow: hidden;
+}
+
+.stageHalo,
+.stageGrid {
+  position: absolute;
+  inset: 0;
+}
+
+.stageHalo {
+  background:
+    radial-gradient(circle at 50% 40%, rgba(29, 223, 255, 0.28), transparent 20%),
+    radial-gradient(circle at 65% 70%, rgba(255, 109, 109, 0.18), transparent 18%);
+  filter: blur(24px);
+}
+
+.stageGrid {
+  background-image:
+    linear-gradient(rgba(123, 233, 255, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(123, 233, 255, 0.06) 1px, transparent 1px);
+  background-size: 34px 34px;
+  mask-image: radial-gradient(circle at center, black 48%, transparent 96%);
+}
+
+.floatingCard {
+  position: absolute;
+  display: grid;
+  gap: 12px;
+  width: min(320px, 68%);
+  padding: 22px;
+  border: 1px solid rgba(123, 233, 255, 0.24);
+  border-radius: 24px;
+  background:
+    linear-gradient(180deg, rgba(5, 11, 20, 0.9), rgba(12, 25, 44, 0.78)),
+    rgba(255, 255, 255, 0.02);
+  box-shadow: 0 18px 60px rgba(1, 8, 20, 0.42);
+  backdrop-filter: blur(20px);
+  animation: float 8s ease-in-out infinite;
+}
+
+.floatingCard1 {
+  top: 10%;
+  right: 10%;
+}
+
+.floatingCard2 {
+  top: 38%;
+  left: 6%;
+  animation-delay: -3s;
+}
+
+.floatingCard3 {
+  bottom: 8%;
+  right: 18%;
+  animation-delay: -6s;
+}
+
+.cardType,
+.residentMeta,
+.chatMeta,
+.portalLabel,
+.searchLabel,
+.searchValue {
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.cardTitle,
+.residentTitle,
+.flowTitle,
+.portalTitle {
+  font-size: 1.32rem;
+}
+
+.cardLine {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.cardPulse {
+  color: var(--accent);
+  font-size: 0.88rem;
+}
+
+.sectionHeader,
+.splitLayout {
+  display: grid;
+  gap: 24px;
+  padding: 32px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: rgba(8, 17, 30, 0.65);
+  box-shadow: var(--glow);
+}
+
+.sectionHeader {
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  align-items: end;
+}
+
+.sectionTitle {
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
+}
+
+.sectionLead,
+.sectionBody {
+  font-size: 1rem;
+}
+
+.residentGrid,
+.portalGrid {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.residentGrid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.residentCard,
+.portalCard,
+.flowCard,
+.chatBubble,
+.searchPanel,
+.chatPanel {
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.residentCard {
+  display: grid;
+  gap: 18px;
+  padding: 24px;
+  min-height: 250px;
+}
+
+.residentMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.residentFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--accent);
+  font-size: 0.88rem;
+}
+
+.signalDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 18px rgba(29, 223, 255, 0.6);
+}
+
+.splitLayout {
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr);
+}
+
+.sectionHeaderCompact {
+  display: grid;
+  align-content: center;
+  gap: 18px;
+}
+
+.flowPanel {
+  display: grid;
+  gap: 18px;
+}
+
+.searchPanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 92px;
+  padding: 0 24px;
+}
+
+.searchValue {
+  color: var(--accent);
+}
+
+.flowSteps {
+  display: grid;
+  gap: 16px;
+}
+
+.flowCard {
+  display: grid;
+  gap: 10px;
+  padding: 22px 24px;
+}
+
+.flowStep {
+  color: var(--highlight);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.chatPanel {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+}
+
+.chatHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.chatList {
+  display: grid;
+  gap: 14px;
+}
+
+.chatBubble {
+  display: grid;
+  gap: 10px;
+  padding: 18px;
+}
+
+.chatBubbleAlt {
+  border-color: rgba(255, 109, 109, 0.28);
+  background: rgba(255, 109, 109, 0.05);
+}
+
+.chatMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.portalGrid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.portalCard {
+  display: grid;
+  gap: 16px;
+  min-height: 260px;
+  padding: 24px;
+}
+
+.portalLabel {
+  letter-spacing: 0.16em;
+}
+
+.waitlistCard {
+  padding: 40px 32px;
+  background:
+    linear-gradient(135deg, rgba(5, 12, 22, 0.9), rgba(12, 28, 46, 0.78)),
+    radial-gradient(circle at 10% 10%, rgba(29, 223, 255, 0.18), transparent 22%);
+}
+
+.waitlistTitle {
+  max-width: 12ch;
+  font-size: clamp(2.8rem, 5vw, 4.8rem);
+}
+
+.waitlistCopy {
+  max-width: 700px;
+  margin-top: 18px;
+  margin-bottom: 24px;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-18px);
+  }
+}
+
+@media (max-width: 1080px) {
+  .heroGrid,
+  .sectionHeader,
+  .splitLayout,
+  .portalGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .heroGrid {
+    min-height: auto;
+  }
+
+  .stage {
+    min-height: 520px;
+  }
+
+  .portalGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .section {
+    width: min(calc(100% - 20px), var(--max-width));
+  }
+
+  .heroGrid,
+  .sectionHeader,
+  .splitLayout,
+  .waitlistCard {
+    padding: 24px;
+  }
+
+  .metrics,
+  .residentGrid,
+  .portalGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .stage {
+    min-height: 440px;
+  }
+
+  .floatingCard {
+    width: min(290px, 76%);
+  }
+
+  .searchPanel,
+  .chatHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
