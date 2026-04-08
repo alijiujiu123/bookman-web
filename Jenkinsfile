@@ -3,7 +3,6 @@ pipeline {
 
     options {
         disableConcurrentBuilds()
-        timestamps()
     }
 
     environment {
@@ -25,9 +24,21 @@ pipeline {
 
         stage('Verify') {
             steps {
-                sh 'npm ci'
-                sh 'npm test'
-                sh 'npm run build'
+                sh '''
+                    docker run --rm \
+                      -v "$PWD":/app \
+                      -w /app \
+                      node:20-alpine \
+                      sh -lc "npm ci && npm test && npm run build"
+                '''
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                    docker build -t "bookman-web:${SHORT_SHA}" .
+                '''
             }
         }
 
