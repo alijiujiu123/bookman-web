@@ -8,7 +8,7 @@ SSH_KEY_PATH="${SSH_KEY_PATH:?SSH_KEY_PATH is required}"
 APP_DOMAIN="${APP_DOMAIN:?APP_DOMAIN is required}"
 
 SHORT_SHA="${SHORT_SHA:-${GIT_COMMIT:-local}}"
-RELEASE_TARBALL="release-${SHORT_SHA}.tgz"
+RELEASE_TARBALL="$(mktemp "/tmp/bookman-release-${SHORT_SHA}-XXXXXX.tgz")"
 REMOTE_RELEASE_DIR="${DEPLOY_PATH}/releases/${SHORT_SHA}"
 REMOTE_CURRENT_LINK="${DEPLOY_PATH}/current"
 SSH_TARGET="${DEPLOY_USER}@${DEPLOY_HOST}"
@@ -28,7 +28,6 @@ tar \
   --exclude='.worktrees' \
   --exclude='node_modules' \
   --exclude='.next' \
-  --exclude="${RELEASE_TARBALL}" \
   -czf "${RELEASE_TARBALL}" .
 
 ssh "${SSH_OPTS[@]}" "${SSH_TARGET}" "mkdir -p '${DEPLOY_PATH}/releases' '${REMOTE_RELEASE_DIR}'"
