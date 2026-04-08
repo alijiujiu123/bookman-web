@@ -10,6 +10,7 @@ pipeline {
         DEPLOY_USER = 'root'
         DEPLOY_PATH = '/opt/bookman-web'
         APP_DOMAIN = 'www.bookman.chat'
+        HOST_WORKSPACE_ROOT = '/opt/jenkins/data/workspace'
     }
 
     stages {
@@ -26,7 +27,7 @@ pipeline {
             steps {
                 sh '''
                     docker run --rm \
-                      -v "$PWD":/app \
+                      -v "${HOST_WORKSPACE_ROOT}/${JOB_NAME}":/app \
                       -w /app \
                       node:20-alpine \
                       sh -lc "npm ci && npm test && npm run build"
