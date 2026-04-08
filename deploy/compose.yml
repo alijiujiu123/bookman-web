@@ -2,9 +2,6 @@ services:
   bookman-web:
     container_name: bookman-web
     image: bookman-web:${APP_IMAGE_TAG:-latest}
-    build:
-      context: ..
-      dockerfile: Dockerfile
     restart: unless-stopped
     environment:
       NODE_ENV: production

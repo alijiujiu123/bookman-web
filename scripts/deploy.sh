@@ -6,9 +6,11 @@ DEPLOY_USER="${DEPLOY_USER:?DEPLOY_USER is required}"
 DEPLOY_PATH="${DEPLOY_PATH:?DEPLOY_PATH is required}"
 SSH_KEY_PATH="${SSH_KEY_PATH:?SSH_KEY_PATH is required}"
 APP_DOMAIN="${APP_DOMAIN:?APP_DOMAIN is required}"
+IMAGE_ARCHIVE_PATH="${IMAGE_ARCHIVE_PATH:?IMAGE_ARCHIVE_PATH is required}"
 
 SHORT_SHA="${SHORT_SHA:-${GIT_COMMIT:-local}}"
 RELEASE_TARBALL="$(mktemp "/tmp/bookman-release-${SHORT_SHA}-XXXXXX.tgz")"
+IMAGE_ARCHIVE_NAME="$(basename "${IMAGE_ARCHIVE_PATH}")"
 REMOTE_RELEASE_DIR="${DEPLOY_PATH}/releases/${SHORT_SHA}"
 REMOTE_CURRENT_LINK="${DEPLOY_PATH}/current"
 SSH_TARGET="${DEPLOY_USER}@${DEPLOY_HOST}"
@@ -32,14 +34,17 @@ tar \
 
 ssh "${SSH_OPTS[@]}" "${SSH_TARGET}" "mkdir -p '${DEPLOY_PATH}/releases' '${REMOTE_RELEASE_DIR}'"
 scp "${SSH_OPTS[@]}" "${RELEASE_TARBALL}" "${SSH_TARGET}:${REMOTE_RELEASE_DIR}/release.tgz"
+scp "${SSH_OPTS[@]}" "${IMAGE_ARCHIVE_PATH}" "${SSH_TARGET}:${REMOTE_RELEASE_DIR}/${IMAGE_ARCHIVE_NAME}"
 
 ssh "${SSH_OPTS[@]}" "${SSH_TARGET}" <<EOF
 set -euo pipefail
 cd '${REMOTE_RELEASE_DIR}'
 tar -xzf release.tgz
 rm -f release.tgz
+docker load -i '${REMOTE_RELEASE_DIR}/${IMAGE_ARCHIVE_NAME}'
+rm -f '${REMOTE_RELEASE_DIR}/${IMAGE_ARCHIVE_NAME}'
 ln -sfn '${REMOTE_RELEASE_DIR}' '${REMOTE_CURRENT_LINK}'
-APP_IMAGE_TAG='${SHORT_SHA}' docker compose -f '${REMOTE_CURRENT_LINK}/deploy/compose.yml' up -d --build --remove-orphans
+APP_IMAGE_TAG='${SHORT_SHA}' docker compose -f '${REMOTE_CURRENT_LINK}/deploy/compose.yml' up -d --no-build --remove-orphans
 docker compose -f '${REMOTE_CURRENT_LINK}/deploy/compose.yml' ps
 for attempt in 1 2 3 4 5 6 7 8 9 10; do
   if curl -fsS -H 'Host: ${APP_DOMAIN}' http://127.0.0.1/ >/dev/null; then

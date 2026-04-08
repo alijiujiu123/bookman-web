@@ -11,6 +11,7 @@ pipeline {
         DEPLOY_PATH = '/opt/bookman-web'
         APP_DOMAIN = 'www.bookman.chat'
         HOST_WORKSPACE_ROOT = '/opt/jenkins/data/workspace'
+        IMAGE_ARCHIVE_DIR = '/tmp'
     }
 
     stages {
@@ -39,6 +40,7 @@ pipeline {
             steps {
                 sh '''
                     docker build -t "bookman-web:${SHORT_SHA}" .
+                    docker save -o "${IMAGE_ARCHIVE_DIR}/bookman-web-${SHORT_SHA}.tar" "bookman-web:${SHORT_SHA}"
                 '''
             }
         }
@@ -55,6 +57,7 @@ pipeline {
                     sh '''
                         export DEPLOY_USER="${SSH_REMOTE_USER}"
                         export SHORT_SHA="${SHORT_SHA}"
+                        export IMAGE_ARCHIVE_PATH="${IMAGE_ARCHIVE_DIR}/bookman-web-${SHORT_SHA}.tar"
                         chmod 600 "${SSH_KEY_PATH}"
                         bash scripts/deploy.sh
                     '''
@@ -69,6 +72,11 @@ pipeline {
         }
         failure {
             echo '❌ Bookman deployment failed'
+        }
+        always {
+            sh '''
+                rm -f "${IMAGE_ARCHIVE_DIR}/bookman-web-${SHORT_SHA}.tar"
+            '''
         }
     }
 }
